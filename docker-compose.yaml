@@ -5,7 +5,8 @@ services:
     image: node:20
     ports: [ '5173:5173' ]
     environment:
-      VITE_IDV_API_URL: 'http://localhost:8085/api'
+      VITE_CLIENT_ID: 'uuid'
+      VITE_AUTHORITY: 'https://login.microsoft.com/uuid'
     working_dir: '/app'
     volumes: [ '.:/app:z' ]
     command: [ 'npm', 'run', 'dev' ]
