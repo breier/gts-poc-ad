@@ -1,5 +1,6 @@
-import { ref } from 'vue'
+import { type Ref, ref } from 'vue'
 import { defineStore } from 'pinia'
+import { PublicClientApplication } from '@azure/msal-browser'
 
 export const useMSALStore = defineStore('msal', () => {
   const msalConfig = ref({
@@ -13,7 +14,7 @@ export const useMSALStore = defineStore('msal', () => {
       cacheLocation: 'localStorage',
     },
   })
-  const msalInstance = ref(null)
+  const msalInstance: Ref<PublicClientApplication|null> = ref(null)
   const accessToken = ref('')
 
   return { msalConfig, msalInstance, accessToken }

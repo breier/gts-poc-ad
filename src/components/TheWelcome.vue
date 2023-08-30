@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { type Ref, ref } from 'vue'
 import { useMSALStore } from '@/stores/msal'
+import { type AccountInfo } from '@azure/msal-common'
 import { PublicClientApplication } from '@azure/msal-browser'
 
-const account = ref(null)
+const account: Ref<AccountInfo|null> = ref(null)
 const store = useMSALStore()
 
 async function init() {
   store.msalInstance = new PublicClientApplication(store.msalConfig)
-  await store.msalInstance.initialize()
+  await store.msalInstance?.initialize()
 }
 
 async function SignIn() {
@@ -16,10 +17,10 @@ async function SignIn() {
     await init()
   }
 
-  await store.msalInstance.loginRedirect({})
+  await store.msalInstance?.loginRedirect({scopes: []})
     .then(() => {
-      const myAccounts = store.msalInstance.getAllAccounts()
-      account.value = myAccounts[0]
+      const myAccounts = store.msalInstance?.getAllAccounts()
+      account.value = myAccounts && myAccounts.length ? myAccounts[0] : null
     })
     .catch(error => {
       console.error(`error during authentication: ${error}`)
@@ -31,7 +32,7 @@ async function SignOut() {
     await init()
   }
 
-  await store.msalInstance.logout({})
+  await store.msalInstance?.logout({})
     .then(() => {
       account.value = null
     })
