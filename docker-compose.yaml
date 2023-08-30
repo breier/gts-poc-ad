@@ -1,0 +1,11 @@
+version: '3'
+services:
+
+  web:
+    image: node:20
+    ports: [ '5173:5173' ]
+    environment:
+      VITE_IDV_API_URL: 'http://localhost:8085/api'
+    working_dir: '/app'
+    volumes: [ '.:/app:z' ]
+    command: [ 'npm', 'run', 'dev' ]
