@@ -6,17 +6,15 @@ export const useMSALStore = defineStore('msal', () => {
     auth: {
       clientId: `${import.meta.env.VITE_CLIENT_ID}`,
       authority: `${import.meta.env.VITE_AUTHORITY}`,
+      knownAuthorities: [`${import.meta.env.VITE_KNOWN_AUTHORITIES}`],
+      redirectUri: `${import.meta.env.VITE_REDIRECT_URI}`,
     },
     cache: {
       cacheLocation: 'localStorage',
     },
   })
-
+  const msalInstance = ref(null)
   const accessToken = ref('')
 
-  function setAccessToken(newValue) {
-    accessToken.value = newValue
-  }
-
-  return { msalConfig, accessToken, setAccessToken }
+  return { msalConfig, msalInstance, accessToken }
 })
